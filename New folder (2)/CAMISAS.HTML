@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musik Shop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #a3a3a358;
+            color: #333;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            background-color: #a3a3a358;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0);
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+            z-index: 10;
+        }
+
+        .navbar.scrolled {
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .menu {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar .menu a {
+            text-decoration: none;
+            font-size: 1rem;
+            color: #333;
+            transition: color 0.3s ease;
+        }
+
+        .navbar.scrolled .menu a:hover {
+            color: #ff4081;
+        }
+
+        .navbar .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .navbar.scrolled .logo-text {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero Section */
+        .hero {
+            width: 100%;
+            height: 100vh;
+            background: url('image.png') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .hero .logo-container {
+            position: relative;
+            z-index: 2;
+            transition: all 0.5s ease-in-out;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 20px;
+            transition: all 0.5s ease;
+        }
+
+        .hero h1.hidden {
+            transform: translateY(-200%);
+            opacity: 0;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: white;
+            max-width: 600px;
+        }
+
+         /* Gallery Section */
+         .gallery-container {
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .gallery-header {
+            margin-bottom: 30px;
+        }
+
+        .gallery-header h2 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: #ff4081;
+        }
+
+        .gallery-header p {
+            font-size: 1.2rem;
+            color: #555;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .product {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .product img {
+            width: 100%;
+            border-bottom: 2px solid #eee;
+        }
+
+        .product .info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .product h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .product p {
+            font-size: 1rem;
+            color: #777;
+            margin-bottom: 15px;
+        }
+
+        .product button {
+            padding: 10px 20px;
+            background-color: #ff4081;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .product button:hover {
+            background-color: #ff1a61;
+        }
+
+
+        /* Footer Section */
+        footer {
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+            padding: 20px;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: #ff4081;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: #ff1a61;
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Reveal product effect when it enters */
+        .product.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar" id="navbar">
+       <a href="file:///C:/Users/yarie/OneDrive/Desktop/New%20folder%20(2)/index.html"><div class="logo-text">MUSIK SHOP</div></a>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="logo-container" id="hero-logo">
+            <h1>MUSIK SHOP</h1>
+            <p>Descubre nuestra colección única de camisas y camisetas diseñadas para destacar en cualquier ocasión.</p>
+        </div>
+    </div>
+
+    <br>
+    <br>
+
+    <div class="gallery">
+        <!-- Product Cards -->
+        <div class="product" id="product4">
+            <img src="prenda5.png" alt="Producto 4">
+            <div class="info">
+                <h3>Camiseta basica de cuello redondo</h3>
+                <p>RD$840</p>
+               <a href="file:///C:/Users/yarie/OneDrive/Desktop/New%20folder%20(2)/POLO%20OVERSIDE.HTML"><button>Comprar</button></a>
+            </div>
+        </div>
+        
+        <div class="product" id="product4">
+            <img src="prenda6.png" alt="Producto 4">
+            <div class="info">
+                <h3>Camiseta de algodon (Estampado de dolar)</h3>
+                <p>RD$580</p>
+               <a href="file:///C:/Users/yarie/OneDrive/Desktop/New%20folder%20(2)/POLO%20OVERSIDE.HTML"><button>Comprar</button></a>
+            </div>
+        </div>
+
+        <div class="product" id="product4">
+            <img src="prenda10.png" alt="Producto 4">
+            <div class="info">
+                <h3>Camiseta de verano</h3>
+                <p>RD$720</p>
+               <a href="file:///C:/Users/yarie/OneDrive/Desktop/New%20folder%20(2)/POLO%20OVERSIDE.HTML"><button>Comprar</button></a>
+            </div>
+        </div>
+
+        <div class="product" id="product4">
+            <img src="prenda13.png" alt="Producto 4">
+            <div class="info">
+                <h3>Camiseta con estampado (Overside)</h3>
+                <p>RD$720</p>
+               <a href="file:///C:/Users/yarie/OneDrive/Desktop/New%20folder%20(2)/POLO%20OVERSIDE.HTML"><button>Comprar</button></a>
+            </div>
+        </div>
+
+        <div class="product" id="product4">
+            <img src="prenda17.png" alt="Producto 4">
+            <div class="info">
+                <h3>Camiseta de polo (Manga Corta)</h3>
+                <p>RD$960</p>
+               <a href="file:///C:/Users/yarie/OneDrive/Desktop/New%20folder%20(2)/POLO%20OVERSIDE.HTML"><button>Comprar</button></a>
+            </div>
+        </div>
+
+        <div class="product" id="product4">
+            <img src="prenda18.png" alt="Producto 4">
+            <div class="info">
+                <h3>Camiseta Ajustada (hombros descubiertos)</h3>
+                <p>RD$580</p>
+               <a href="file:///C:/Users/yarie/OneDrive/Desktop/New%20folder%20(2)/POLO%20OVERSIDE.HTML"><button>Comprar</button></a>
+            </div>
+        </div>
+
+        <div class="product" id="product4">
+            <img src="prenda19.png" alt="Producto 4">
+            <div class="info">
+                <h3>Prive Camiseta de tercio pelo (Unicolor tejida)</h3>
+                <p>RD$480</p>
+               <a href="file:///C:/Users/yarie/OneDrive/Desktop/New%20folder%20(2)/POLO%20OVERSIDE.HTML"><button>Comprar</button></a>
+            </div>
+        </div>
+
+        <div class="product" id="product4">
+            <img src="prenda20.png" alt="Producto 4">
+            <div class="info">
+                <h3>Camiseta manga corta (Cuello redondo)</h3>
+                <p>RD$540</p>
+               <a href="file:///C:/Users/yarie/OneDrive/Desktop/New%20folder%20(2)/POLO%20OVERSIDE.HTML"><button>Comprar</button></a>
+            </div>
+        </div>
+
+    </div>
+
+<br>
+<br>
+<br>
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 MUSIK SHOP.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        const navbar = document.getElementById('navbar');
+        const heroLogo = document.getElementById('hero-logo');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+                heroLogo.querySelector('h1').classList.add('hidden');
+            } else {
+                navbar.classList.remove('scrolled');
+                heroLogo.querySelector('h1').classList.remove('hidden');
+            }
+        });
+    </script>
+
+</body>
+</html>
